@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { motion } from 'motion/react'
 import { Mail, Copy, Check, Send, ArrowUpRight } from 'lucide-react'
 import { GithubIcon, LinkedinIcon } from './Icons'
 import confetti from 'canvas-confetti'
@@ -46,7 +47,14 @@ export default function Contact() {
   }
 
   return (
-    <section className="contact-section" id="contact">
+    <motion.section
+      className="contact-section"
+      id="contact"
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-50px' }}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+    >
       <div className="section-intro">
         <div className="section-label-group">
           <span className="section-indicator font-mono">04 // CONNECT</span>
@@ -196,6 +204,6 @@ export default function Contact() {
           )}
         </div>
       </div>
-    </section>
+    </motion.section>
   )
 }

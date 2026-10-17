@@ -1,52 +1,38 @@
 import { useState, useRef } from 'react'
+import { motion } from 'motion/react'
 import { BookOpen, ArrowUpRight } from 'lucide-react'
 import { GithubIcon } from './Icons'
 import { PROJECTS } from '../data/portfolioData'
 
 function ProjectCard({ project, onSelectCaseStudy }) {
   const cardRef = useRef(null)
-  const [rotateX, setRotateX] = useState(0)
-  const [rotateY, setRotateY] = useState(0)
   const [isHovered, setIsHovered] = useState(false)
 
-  // Subtle 3D Tilt calculation on mouse move
+  // Direct CSS variable updates for pointer-responsive specular sheen without triggering React re-renders
   const handleMouseMove = (e) => {
     if (!cardRef.current) return
     const rect = cardRef.current.getBoundingClientRect()
-    const width = rect.width
-    const height = rect.height
     const mouseX = e.clientX - rect.left
     const mouseY = e.clientY - rect.top
 
-    // Set radial spotlight coordinates
     cardRef.current.style.setProperty('--card-mouse-x', `${mouseX}px`)
     cardRef.current.style.setProperty('--card-mouse-y', `${mouseY}px`)
-
-    // Gentle tilt angles (max ~6 degrees)
-    const rotX = ((mouseY / height) - 0.5) * -10
-    const rotY = ((mouseX / width) - 0.5) * 10
-    setRotateX(rotX)
-    setRotateY(rotY)
   }
 
   const handleMouseEnter = () => setIsHovered(true)
-  const handleMouseLeave = () => {
-    setIsHovered(false)
-    setRotateX(0)
-    setRotateY(0)
-  }
+  const handleMouseLeave = () => setIsHovered(false)
 
   return (
-    <article
+    <motion.article
       ref={cardRef}
       className={`project-card-interactive ${isHovered ? 'hovered' : ''}`}
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      style={{
-        transform: `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(${isHovered ? 1.015 : 1}, ${isHovered ? 1.015 : 1}, 1)`,
-        transition: isHovered ? 'transform 0.1s ease-out' : 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
-      }}
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
     >
       {/* Radial Spotlight glow border overlay */}
       <div className="card-spotlight-border" aria-hidden="true" />
@@ -119,7 +105,7 @@ function ProjectCard({ project, onSelectCaseStudy }) {
           </div>
         </div>
       </div>
-    </article>
+    </motion.article>
   )
 }
 

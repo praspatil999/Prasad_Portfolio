@@ -1,9 +1,17 @@
+import { motion } from 'motion/react'
 import { Calendar, MapPin, CheckCircle2 } from 'lucide-react'
 import { EXPERIENCES } from '../data/portfolioData'
 
 export default function Experience() {
   return (
-    <section className="experience-section" id="experience">
+    <motion.section
+      className="experience-section"
+      id="experience"
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-50px' }}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+    >
       <div className="section-intro">
         <div className="section-label-group">
           <span className="section-indicator font-mono">02 // CAREER</span>
@@ -19,7 +27,14 @@ export default function Experience() {
         <div className="timeline-line" aria-hidden="true" />
 
         {EXPERIENCES.map((exp, idx) => (
-          <div key={idx} className="timeline-entry">
+          <motion.div
+            key={idx}
+            className="timeline-entry"
+            initial={{ opacity: 0, x: -16 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.5, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
+          >
             {/* Timeline Marker Dot */}
             <div className="timeline-marker">
               <div className="timeline-dot-outer">
@@ -70,9 +85,9 @@ export default function Experience() {
                 ))}
               </div>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
-    </section>
+    </motion.section>
   )
 }

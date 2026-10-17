@@ -1,3 +1,4 @@
+import { motion } from 'motion/react'
 import { Shield, Zap, Layers, HeartHandshake } from 'lucide-react'
 
 export default function About() {
@@ -25,7 +26,14 @@ export default function About() {
   ]
 
   return (
-    <section className="about-section" id="about">
+    <motion.section
+      className="about-section"
+      id="about"
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-50px' }}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+    >
       <div className="section-intro">
         <div className="section-label-group">
           <span className="section-indicator font-mono">00 // PROFILE</span>
@@ -83,6 +91,6 @@ export default function About() {
           </div>
         </div>
       </div>
-    </section>
+    </motion.section>
   )
 }

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { motion, AnimatePresence } from 'motion/react'
 import { Server, Layout, Database, Cloud, Code, Check } from 'lucide-react'
 import { SKILL_CATEGORIES } from '../data/portfolioData'
 
@@ -16,7 +17,14 @@ export default function Skills() {
   const activeCategory = SKILL_CATEGORIES[activeCategoryIndex]
 
   return (
-    <section className="skills-section" id="skills">
+    <motion.section
+      className="skills-section"
+      id="skills"
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-50px' }}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+    >
       <div className="section-intro">
         <div className="section-label-group">
           <span className="section-indicator font-mono">03 // STACK</span>
@@ -48,36 +56,43 @@ export default function Skills() {
           ))}
         </div>
 
-        {/* Tab Panel */}
-        <div
-          id={`skills-tabpanel-${activeCategoryIndex}`}
-          role="tabpanel"
-          aria-labelledby={`skills-tab-${activeCategoryIndex}`}
-          className="skills-panel"
-        >
-          <div className="panel-summary-bar">
-            <div className="panel-header-info">
-              <h3 className="panel-title">{activeCategory.category}</h3>
-              <p className="panel-description">{activeCategory.summary}</p>
-            </div>
-            <span className="panel-status font-mono">PRACTICAL PRODUCTION USE</span>
-          </div>
-
-          <div className="skills-grid-cards">
-            {activeCategory.skills.map((skill) => (
-              <div key={skill.name} className="skill-card">
-                <div className="skill-card-top">
-                  <div className="skill-icon-wrapper">
-                    <Check size={14} className="text-cyan" />
-                  </div>
-                  <h4 className="skill-name font-mono">{skill.name}</h4>
-                </div>
-                <p className="skill-context">{skill.context}</p>
+        {/* Tab Panel with smooth AnimatePresence */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeCategory.category}
+            id={`skills-tabpanel-${activeCategoryIndex}`}
+            role="tabpanel"
+            aria-labelledby={`skills-tab-${activeCategoryIndex}`}
+            className="skills-panel"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <div className="panel-summary-bar">
+              <div className="panel-header-info">
+                <h3 className="panel-title">{activeCategory.category}</h3>
+                <p className="panel-description">{activeCategory.summary}</p>
               </div>
-            ))}
-          </div>
-        </div>
+              <span className="panel-status font-mono">PRACTICAL PRODUCTION USE</span>
+            </div>
+
+            <div className="skills-grid-cards">
+              {activeCategory.skills.map((skill) => (
+                <div key={skill.name} className="skill-card">
+                  <div className="skill-card-top">
+                    <div className="skill-icon-wrapper">
+                      <Check size={14} className="text-cyan" />
+                    </div>
+                    <h4 className="skill-name font-mono">{skill.name}</h4>
+                  </div>
+                  <p className="skill-context">{skill.context}</p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        </AnimatePresence>
       </div>
-    </section>
+    </motion.section>
   )
 }

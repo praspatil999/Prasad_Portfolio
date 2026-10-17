@@ -63,36 +63,50 @@
 
 @layer theme {
   :root {
-    /* Color Palette - Award-Worthy Technical Theme */
-    --bg: #0A0A0F;                 /* Deep charcoal */
-    --bg-elevated: #111118;        /* Subtle card lift */
-    --bg-card: rgba(17, 17, 24, 0.75);
-    --bg-card-hover: rgba(22, 22, 32, 0.85);
-    --bg-glass: rgba(10, 10, 15, 0.8);
+    /* Apple-Inspired Deep Charcoal Canvas & Materials */
+    --bg: #07070A;                 /* Deep cinematic charcoal */
+    --bg-elevated: #0E0E14;        /* Subtle elevation */
+    --bg-card: rgba(18, 18, 25, 0.62);
+    --bg-card-hover: rgba(26, 26, 36, 0.78);
+    --bg-glass: rgba(14, 14, 20, 0.72);
+    --bg-glass-subtle: rgba(255, 255, 255, 0.035);
+    --bg-glass-pill: rgba(255, 255, 255, 0.06);
+
+    /* Apple Glassmorphism Blur & Surface Filters */
+    --glass-blur: 24px;
+    --glass-saturate: 190%;
+    --glass-contrast: 102%;
+
+    /* Translucent Borders & Top Specular Inset Highlights */
+    --border: rgba(255, 255, 255, 0.09);
+    --border-hover: rgba(255, 255, 255, 0.20);
+    --border-subtle: rgba(255, 255, 255, 0.045);
+    --glass-highlight: inset 0 1px 0 0 rgba(255, 255, 255, 0.14);
+    --glass-highlight-pill: inset 0 1px 0.5px 0 rgba(255, 255, 255, 0.22);
+    --glass-highlight-strong: inset 0 1px 0 0 rgba(255, 255, 255, 0.28);
     
-    --text-primary: #F5F5F7;       /* Off-white */
-    --text-secondary: #94A3B8;     /* Slate muted */
-    --text-muted: #64748B;         /* Subdued meta */
+    /* Apple Typography Colors */
+    --text-primary: #F5F5F7;       /* Apple off-white crisp display */
+    --text-secondary: #A1A1AA;     /* Apple silver/zinc neutral */
+    --text-muted: #71717A;         /* Subdued label metadata */
+    --text-tertiary: #52525B;      /* De-emphasized guide text */
     
+    /* Subtle Ambient Lighting (Indigo & Cyan) */
     --accent: #6366F1;             /* Electric Indigo */
-    --accent-glow: rgba(99, 102, 241, 0.25);
+    --accent-glow: rgba(99, 102, 241, 0.20);
     --accent-light: #818CF8;
     --accent-dark: #4F46E5;
     
-    --cyan: #22D3EE;               /* Secondary Cyan */
-    --cyan-glow: rgba(34, 211, 238, 0.25);
-    --cyan-light: #67E8F9;
+    --cyan: #38BDF8;               /* Apple Cyan / Sky */
+    --cyan-glow: rgba(56, 189, 248, 0.18);
+    --cyan-light: #7DD3FC;
     
-    --border: rgba(255, 255, 255, 0.08);
-    --border-hover: rgba(99, 102, 241, 0.4);
-    --border-subtle: rgba(255, 255, 255, 0.04);
+    --success: #34D399;
+    --warning: #FBBF24;
     
-    --success: #10B981;
-    --warning: #F59E0B;
-    
-    /* Typography */
-    --font-heading: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
-    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    /* Typography Stack - San Francisco Pro / Inter with Space Grotesk accents */
+    --font-heading: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Space Grotesk', 'Inter', sans-serif;
+    --font-body: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', sans-serif;
     --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
     /* Spacing System */
@@ -105,18 +119,22 @@
     --space-2xl: 5.5rem;   /* 88px */
     --space-3xl: 8rem;     /* 128px */
     
-    /* Radius */
-    --radius-sm: 8px;
-    --radius-md: 14px;
-    --radius-lg: 20px;
+    /* Rounded Radii (Pills & Smooth Rounded Rectangles) */
+    --radius-xs: 6px;
+    --radius-sm: 10px;
+    --radius-md: 16px;
+    --radius-lg: 22px;
+    --radius-xl: 30px;
     --radius-full: 9999px;
     
-    /* Shadows */
-    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
-    --shadow-md: 0 10px 30px -10px rgba(0, 0, 0, 0.7);
-    --shadow-lg: 0 20px 50px -15px rgba(0, 0, 0, 0.85);
-    --shadow-indigo: 0 0 40px -10px rgba(99, 102, 241, 0.35);
-    --shadow-cyan: 0 0 35px -10px rgba(34, 211, 238, 0.3);
+    /* Apple Multi-Stop Layered Shadows */
+    --shadow-sm: 0 2px 8px -1px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    --shadow-md: 0 10px 30px -10px rgba(0, 0, 0, 0.65), 0 2px 6px -2px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 20px 50px -15px rgba(0, 0, 0, 0.8), 0 4px 12px -2px rgba(0, 0, 0, 0.5);
+    --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.42), inset 0 1px 0 0 rgba(255, 255, 255, 0.14);
+    --shadow-pill: 0 12px 36px -8px rgba(0, 0, 0, 0.6), inset 0 1px 0 0 rgba(255, 255, 255, 0.18);
+    --shadow-indigo: 0 0 35px -8px rgba(99, 102, 241, 0.3);
+    --shadow-cyan: 0 0 30px -8px rgba(56, 189, 248, 0.25);
 
     color-scheme: dark;
   }
@@ -200,6 +218,64 @@
   }
 }
 
+/* Ambient Lighting Floating Orbs Animations */
+@keyframes float-ambient-1 {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(60px, -45px, 0) scale(1.08);
+  }
+  100% {
+    transform: translate3d(-40px, 40px, 0) scale(0.95);
+  }
+}
+
+@keyframes float-ambient-2 {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-55px, 50px, 0) scale(1.1);
+  }
+  100% {
+    transform: translate3d(45px, -35px, 0) scale(0.94);
+  }
+}
+
+@keyframes float-ambient-3 {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.95);
+  }
+  50% {
+    transform: translate3d(40px, 35px, 0) scale(1.06);
+  }
+  100% {
+    transform: translate3d(-35px, -40px, 0) scale(1.02);
+  }
+}
+
+/* Apple Glassmorphism Fallback for browsers lacking backdrop-filter */
+@supports not ((backdrop-filter: blur(20px)) or (-webkit-backdrop-filter: blur(20px))) {
+  :root {
+    --bg-card: #12121A;
+    --bg-card-hover: #1A1A24;
+    --bg-glass: #0F0F16;
+  }
+  .navbar-container,
+  .telemetry-card,
+  .project-card-interactive,
+  .skills-panel,
+  .timeline-card,
+  .contact-info-card,
+  .contact-form-card,
+  .modal-container,
+  .terminal-window,
+  .resume-modal {
+    background-color: #12121A !important;
+  }
+}
+
 /* Reduced Motion Handling */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -208,4 +284,8 @@
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+  .ambient-orb {
+    animation: none !important;
+  }
 }
+

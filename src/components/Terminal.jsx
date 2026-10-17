@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import { Terminal as TerminalIcon, X, Minus, Maximize2, Minimize2, CornerDownLeft } from 'lucide-react'
 import { PERSONAL_INFO, PROJECTS, EXPERIENCES, SKILL_CATEGORIES } from '../data/portfolioData'
 
@@ -40,8 +40,63 @@ export default function TerminalModal({
     'exit'
   ]
 
+  // Animated Close handler (Smooth scale-down & fade-out)
+  const handleClose = useCallback(() => {
+    if (isTransitioningRef.current || animState === 'closing' || animState === 'closed') return
+    isTransitioningRef.current = true
+    setAnimState('closing')
+    setTimeout(() => {
+      setAnimState('closed')
+      isTransitioningRef.current = false
+      onClose?.()
+    }, 260)
+  }, [animState, onClose])
+
+  // Animated Minimize handler (Smooth genie swoop down toward dock)
+  const handleMinimize = useCallback(() => {
+    if (isTransitioningRef.current || animState === 'minimizing' || animState === 'minimized') return
+    isTransitioningRef.current = true
+    setAnimState('minimizing')
+    setTimeout(() => {
+      setAnimState('minimized')
+      isTransitioningRef.current = false
+      onMinimize?.()
+    }, 340)
+  }, [animState, onMinimize])
+
+  // Animated Restore handler (Smooth swooping expand back from dock)
+  const handleRestore = useCallback(() => {
+    if (isTransitioningRef.current || animState === 'restoring' || animState === 'open') return
+    isTransitioningRef.current = true
+    setPillAnimOut(true)
+    setTimeout(() => {
+      setPillAnimOut(false)
+      setAnimState('restoring')
+      setTimeout(() => {
+        setAnimState('open')
+        isTransitioningRef.current = false
+        onRestore?.()
+        setTimeout(() => inputRef.current?.focus(), 60)
+      }, 340)
+    }, 120)
+  }, [animState, onRestore])
+
+  // Close completely from the minimized dock pill
+  const handleCloseFromPill = useCallback(() => {
+    if (isTransitioningRef.current) return
+    isTransitioningRef.current = true
+    setPillAnimOut(true)
+    setTimeout(() => {
+      setPillAnimOut(false)
+      setAnimState('closed')
+      isTransitioningRef.current = false
+      onClose?.()
+    }, 180)
+  }, [onClose])
+
   // Synchronize animation state with parent isOpen & isMinimized props
   useEffect(() => {
+    let timer
     if (isOpen) {
       if (isMinimized) {
         if (animState !== 'minimized' && animState !== 'minimizing') {
@@ -49,22 +104,25 @@ export default function TerminalModal({
         }
       } else {
         if (animState === 'closed') {
-          setAnimState('opening')
-          const timer = setTimeout(() => {
+          timer = setTimeout(() => {
             setAnimState('open')
             inputRef.current?.focus()
-          }, 320)
-          return () => clearTimeout(timer)
+          }, 50)
         } else if (animState === 'minimized') {
           handleRestore()
         }
       }
     } else {
       if (animState !== 'closed' && animState !== 'closing') {
-        setAnimState('closed')
+        timer = setTimeout(() => {
+          setAnimState('closed')
+        }, 0)
       }
     }
-  }, [isOpen, isMinimized])
+    return () => {
+      if (timer) clearTimeout(timer)
+    }
+  }, [isOpen, isMinimized, animState, handleMinimize, handleRestore])
 
   // Body overflow locking when modal is open and active
   useEffect(() => {
@@ -84,60 +142,6 @@ export default function TerminalModal({
       endRef.current?.scrollIntoView({ behavior: 'smooth' })
     }
   }, [history, isOpen, animState])
-
-  // Animated Close handler (Smooth scale-down & fade-out)
-  const handleClose = () => {
-    if (isTransitioningRef.current || animState === 'closing' || animState === 'closed') return
-    isTransitioningRef.current = true
-    setAnimState('closing')
-    setTimeout(() => {
-      setAnimState('closed')
-      isTransitioningRef.current = false
-      onClose?.()
-    }, 260)
-  }
-
-  // Animated Minimize handler (Smooth genie swoop down toward dock)
-  const handleMinimize = () => {
-    if (isTransitioningRef.current || animState === 'minimizing' || animState === 'minimized') return
-    isTransitioningRef.current = true
-    setAnimState('minimizing')
-    setTimeout(() => {
-      setAnimState('minimized')
-      isTransitioningRef.current = false
-      onMinimize?.()
-    }, 340)
-  }
-
-  // Animated Restore handler (Smooth swooping expand back from dock)
-  const handleRestore = () => {
-    if (isTransitioningRef.current || animState === 'restoring' || animState === 'open') return
-    isTransitioningRef.current = true
-    setPillAnimOut(true)
-    setTimeout(() => {
-      setPillAnimOut(false)
-      setAnimState('restoring')
-      setTimeout(() => {
-        setAnimState('open')
-        isTransitioningRef.current = false
-        onRestore?.()
-        setTimeout(() => inputRef.current?.focus(), 60)
-      }, 340)
-    }, 120)
-  }
-
-  // Close completely from the minimized dock pill
-  const handleCloseFromPill = () => {
-    if (isTransitioningRef.current) return
-    isTransitioningRef.current = true
-    setPillAnimOut(true)
-    setTimeout(() => {
-      setPillAnimOut(false)
-      setAnimState('closed')
-      isTransitioningRef.current = false
-      onClose?.()
-    }, 180)
-  }
 
   const handleKeyDown = (e) => {
     // Escape closes terminal with smooth exit

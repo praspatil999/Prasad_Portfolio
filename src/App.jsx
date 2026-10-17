@@ -78,6 +78,14 @@ function App() {
       {/* Subtle Desktop-Only Custom Cursor */}
       <CustomCursor />
 
+      {/* Soft blurred ambient gradient orbs behind the interface */}
+      <div className="apple-ambient-canvas" aria-hidden="true">
+        <div className="ambient-orb orb-indigo-1" />
+        <div className="ambient-orb orb-cyan-1" />
+        <div className="ambient-orb orb-indigo-2" />
+        <div className="ambient-orb orb-slate-1" />
+      </div>
+
       {/* High-Tech Technical Grid Background with Flashlight Mask */}
       <div className="ambient-grid-bg" aria-hidden="true" />
 
